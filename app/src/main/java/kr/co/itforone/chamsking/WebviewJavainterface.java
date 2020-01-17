@@ -3,7 +3,9 @@ package kr.co.itforone.chamsking;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 

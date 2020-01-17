@@ -8,8 +8,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.net.URLDecoder;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +37,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.webview)    WebView webView;
     @BindView(R.id.refreshlayout)  SwipeRefreshLayout refreshlayout;
+    private LocationManager locationManager;
+    private Location location;
     private long backPrssedTime = 0;
     final int FILECHOOSER_LOLLIPOP_REQ_CODE=1300;
     ValueCallback<Uri[]> filePathCallbackLollipop;
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         Intent splash = new Intent(MainActivity.this,SplashActivity.class);
         startActivity(splash);
 
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_LONG).show();
@@ -55,8 +63,27 @@ public class MainActivity extends AppCompatActivity {
                         1);
             }
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        1);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        1);
+            }
+        }
 
-
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         WebSettings setting = webView.getSettings();
         setting.setAllowFileAccess(true);//웹에서 파일 접근 여부
@@ -146,6 +173,16 @@ public class MainActivity extends AppCompatActivity {
         });
        webView.loadUrl(getString(R.string.index));
     }
+
+    public double getlat(){
+        //Toast.makeText(getApplicationContext(),""+location.getLatitude() + "//" +location.getLongitude(),Toast.LENGTH_LONG).show();
+        return location.getLatitude();
+    }
+    public double getlng(){
+        //Toast.makeText(getApplicationContext(),""+location.getLatitude() + "//" +location.getLongitude(),Toast.LENGTH_LONG).show();
+        return location.getLongitude();
+    }
+
 
     public void set_filePathCallbackLollipop(ValueCallback<Uri[]> filePathCallbackLollipop){
         this.filePathCallbackLollipop = filePathCallbackLollipop;
