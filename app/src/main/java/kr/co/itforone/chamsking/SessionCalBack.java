@@ -46,13 +46,13 @@ class SessionCalBack implements ISessionCallback {
 
                 String nickname = userProfile.getNickname();
                 String profileImagePath = userProfile.getProfileImagePath();
-                String thumnailPath = userProfile.getThumbnailImagePath();
+
                 long id = userProfile.getId();
 
                 Log.i("Profile : ", "nickname / " + nickname + "");
                 Log.i("Profile : ", "profileImagePath / " + profileImagePath  + "");
-                Log.i("Profile : ", "thumnailPath / " + thumnailPath + "");
                 Log.i("Profile : ", "id / " + id + "");
+
             }
 
             // 사용자 정보 요청 실패

@@ -3,32 +3,44 @@ package kr.co.itforone.chamsking;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Message;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+import kr.co.itforone.chamsking.SessionCalBack;
+import androidx.annotation.RequiresApi;
 
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 class ChoromeManager extends WebChromeClient {
     MainActivity mainActivity;
     Activity activity;
     static final int FILECHOOSER_LOLLIPOP_REQ_CODE=1300;
     Uri mCapturedImageURI;
+    private WebView mWebviewPop;
+
 
     ChoromeManager(MainActivity mainActivity, Activity activity){
         this.mainActivity = mainActivity;
@@ -45,18 +57,17 @@ class ChoromeManager extends WebChromeClient {
     @Override
     public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture,
                                   Message resultMsg) {
+        Session session = Session.getCurrentSession();
+        session.addCallback(new SessionCalBack());
+        session.open(AuthType.KAKAO_LOGIN_ALL, mainActivity);
 
-        if(view.getUrl().contains("login")){
-            Session session = Session.getCurrentSession();
-            session.addCallback(new SessionCalBack());
-            session.open(AuthType.KAKAO_ACCOUNT,mainActivity);
-        }
         return true;
     }
     @Override
     public void onCloseWindow(WebView window){
         super.onCloseWindow(window);
-        mainActivity.webView.removeView(window);
+        mainActivity.kakao_webview.removeView(window);
+        mainActivity.kakao_webview.setVisibility(View.GONE);
     }
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {

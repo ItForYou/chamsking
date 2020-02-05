@@ -15,6 +15,7 @@ class ClientManager extends WebViewClient {
     ClientManager(Activity activity){
         this.activity = activity;
     }
+
     ClientManager(Activity activity, MainActivity mainActivity){
         this.mainActivity = mainActivity;
         this.activity = activity;
@@ -22,7 +23,7 @@ class ClientManager extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        Toast.makeText(mainActivity.getApplicationContext(),url,Toast.LENGTH_LONG).show();
+        //Toast.makeText(mainActivity.getApplicationContext(),url,Toast.LENGTH_LONG).show();
         view.loadUrl(url);
         return true;
     }

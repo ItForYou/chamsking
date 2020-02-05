@@ -14,11 +14,10 @@ import com.kakao.auth.KakaoSDK;
 public class Kakao_app extends Application {
     private static Kakao_app instance;
 
-    public static Kakao_app getGlobalApplicationContext() {
+    public static Kakao_app getGlobalApplicationContext(){
         if (instance == null) {
             throw new IllegalStateException("This Application does not inherit com.kakao.GlobalApplication");
         }
-
         return instance;
     }
 
@@ -46,7 +45,7 @@ public class Kakao_app extends Application {
                 // 로그인 시 인증 타입 지정
                 @Override
                 public AuthType[] getAuthTypes() {
-                    return new AuthType[] {AuthType.KAKAO_ACCOUNT};
+                    return new AuthType[] {AuthType.KAKAO_LOGIN_ALL};
                 }
 
                 // pause와 resume시에 타이머를 설정/ CPU의 소모를 절약 할 지의 여부를 지정

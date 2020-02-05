@@ -13,5 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </WebView>
+    <FrameLayout
+        android:id="@+id/kakao_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
