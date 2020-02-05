@@ -1,4 +1,6 @@
 <resources>
 <string name="app_name">챔스킹</string>
 <string name="index">http://chamsking.itforone.co.kr/</string>
+<string name="kakao_key">19ac6fbff55a94b203dbfaf7ca18ffae</string>
+
 </resources>

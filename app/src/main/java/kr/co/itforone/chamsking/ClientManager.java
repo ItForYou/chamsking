@@ -22,6 +22,7 @@ class ClientManager extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        Toast.makeText(mainActivity.getApplicationContext(),url,Toast.LENGTH_LONG).show();
         view.loadUrl(url);
         return true;
     }

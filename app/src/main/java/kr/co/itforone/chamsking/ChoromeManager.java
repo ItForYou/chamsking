@@ -2,16 +2,25 @@ package kr.co.itforone.chamsking;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Message;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+
+import android.util.Log;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
+
+import com.kakao.auth.AuthType;
+import com.kakao.auth.Session;
 
 import java.io.File;
 
@@ -33,6 +42,22 @@ class ChoromeManager extends WebChromeClient {
     ChoromeManager(){}
 
 
+    @Override
+    public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture,
+                                  Message resultMsg) {
+
+        if(view.getUrl().contains("login")){
+            Session session = Session.getCurrentSession();
+            session.addCallback(new SessionCalBack());
+            session.open(AuthType.KAKAO_ACCOUNT,mainActivity);
+        }
+        return true;
+    }
+    @Override
+    public void onCloseWindow(WebView window){
+        super.onCloseWindow(window);
+        mainActivity.webView.removeView(window);
+    }
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
 

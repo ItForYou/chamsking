@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.kakao.usermgmt.LoginButton;
+
 import java.net.URLDecoder;
 import java.util.Locale;
 
@@ -37,6 +40,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.webview)    WebView webView;
     @BindView(R.id.refreshlayout)  SwipeRefreshLayout refreshlayout;
+    @BindView(R.id.kakao_login)    LoginButton kakao_login;
     private LocationManager locationManager;
     private Location location;
     private long backPrssedTime = 0;
@@ -51,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent splash = new Intent(MainActivity.this,SplashActivity.class);
         startActivity(splash);
-
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         setting.setBuiltInZoomControls(true);
         setting.setDisplayZoomControls(false);
         setting.setJavaScriptEnabled(true);//자바스크립트 사용여부
+        setting.setSupportMultipleWindows(true);
         setting.setUseWideViewPort(true);//웹에서 view port 사용여부
 
         webView.setWebViewClient(new ClientManager(this,this));
